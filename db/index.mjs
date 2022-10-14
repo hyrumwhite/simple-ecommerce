@@ -69,7 +69,7 @@ const initializeTables = async (dir) => {
 try {
 	await extract(join(__dirname, "data.zip"), { dir: __dirname });
 	await initializeTables(join(__dirname, "data"));
-	console.log("Initialized database!");
+	console.info("Initialized database!");
 } catch (e) {
 	console.error("Something went wrong while extracting zipped data");
 	console.error(e);

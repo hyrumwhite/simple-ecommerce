@@ -5,8 +5,8 @@
 			class="
 				py-2
 				px-4
-				bg-transparent
-				border-blue-700 border-4 border-md
+				bg-slate-100
+				border border-slate-200
 				rounded-full
 				outline-offset-4 outline-blue-500
 			"

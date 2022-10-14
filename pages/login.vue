@@ -1,21 +1,34 @@
 <template>
 	<form
+		action="/api/login"
 		class="
 			overflow-hidden
 			relative
 			flex flex-col
-			w-[600px]
-			h-[600px]
+			w-[350px]
 			rounded-md
 			bg-white
 			shadow-md
-			p-3
-			gap-3
+			p-6
+			gap-4
 		"
 	>
-		<Input label="Username" autofocus />
-		<Input label="Password" autofocus />
-		<Btn>Sign in</Btn>
+		<h1 class="text-2xl flex justify-center">Welcome!</h1>
+		<Input
+			label="Email"
+			name="email"
+			type="email"
+			autofocus
+			placeholder=""
+			value="micheline.pruden@somemail.com"
+		/>
+		<Input
+			label="Password"
+			name="password"
+			type="password"
+			value="TZucsISXhS"
+		/>
+		<Btn class="mt-2">Sign in</Btn>
 	</form>
 </template>
 
