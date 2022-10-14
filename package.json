@@ -13,7 +13,9 @@
 		"nuxt": "3.0.0-rc.11"
 	},
 	"dependencies": {
+		"@pinia/nuxt": "^0.4.3",
 		"extract-zip": "^2.0.1",
-		"pg": "^8.8.0"
+		"pg": "^8.8.0",
+		"pinia": "^2.0.23"
 	}
 }
