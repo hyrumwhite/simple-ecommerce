@@ -22,7 +22,7 @@
 				}}</span>
 			</span>
 		</section>
-		<div class="flex-1 overflow-auto p-4">
+		<div class="flex-1 overflow-auto p-8">
 			<slot />
 		</div>
 	</div>

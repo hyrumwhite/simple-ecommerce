@@ -18,7 +18,17 @@
 				<template #td_updated_at="{ item }">
 					{{ item.updatedDisplayDate }}
 				</template>
+				<template #td_note="{ value }">
+					<Btn v-if="value" class="py-1 bg-slate-200 text-slate-900"
+						>View Note</Btn
+					>
+				</template>
 			</DataTable>
+			<Pagination
+				:page="currentPage"
+				@navigate="handleTableNavigation"
+				:lastPage="lastPage"
+			/>
 		</div>
 	</div>
 </template>
@@ -27,7 +37,22 @@
 import { schema } from "~/db/schema.mjs";
 const productsStore = useProductsStore();
 const { currentUser } = useUserStore();
-
+const currentPage = computed(
+	() => productsStore.filter.offset / productsStore.filter.limit + 1
+);
+const lastPage = computed(() =>
+	Math.ceil(productsStore.totalProducts / productsStore.filter.limit)
+);
+const handleTableNavigation = (page) => {
+	const { filter, totalProducts } = productsStore;
+	if (page == "last") {
+		page = Math.ceil(totalProducts / filter.limit);
+	}
+	productsStore.getProducts({
+		id: currentUser.id,
+		offset: (page - 1) * filter.limit,
+	});
+};
 //toTileCase is from https://stackoverflow.com/a/64489760/3803371
 const toTitleCase = (s) =>
 	s

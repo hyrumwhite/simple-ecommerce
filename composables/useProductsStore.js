@@ -39,5 +39,5 @@ export default defineStore("products-store", () => {
 		productsList.value = products;
 	};
 
-	return { productsList, totalProducts, getProducts };
+	return { productsList, totalProducts, getProducts, filter };
 });
