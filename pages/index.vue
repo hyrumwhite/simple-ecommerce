@@ -2,7 +2,7 @@
 	<div class="flex flex-col gap-4">
 		<div class="flex items-center gap-6 justify-between">
 			<h1 class="text-3xl">My Products</h1>
-			<Btn class="py-2">Add Product</Btn>
+			<Btn class="py-2" @click="showCreateProduct = true">Add Product</Btn>
 		</div>
 		<div class="border rounded-md overflow-hidden">
 			<DataTable :headers="headers" :items="productsStore.productsList">
@@ -30,6 +30,7 @@
 				:lastPage="lastPage"
 			/>
 		</div>
+		<Dialog v-model="showCreateProduct">test</Dialog>
 	</div>
 </template>
 
@@ -53,6 +54,8 @@ const handleTableNavigation = (page) => {
 		offset: (page - 1) * filter.limit,
 	});
 };
+
+const showCreateProduct = ref(false);
 //toTileCase is from https://stackoverflow.com/a/64489760/3803371
 const toTitleCase = (s) =>
 	s
