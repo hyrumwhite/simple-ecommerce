@@ -1,6 +1,6 @@
 <template>
 	<div class="flex flex-col gap-4">
-		<div class="flex items-center gap-6 justify-between">
+		<div class="flex items-center gap-6 justify-between h-10">
 			<h1 class="text-3xl">My Products</h1>
 			<Btn class="py-2" @click="showCreateProduct = true">Add Product</Btn>
 		</div>
@@ -61,13 +61,11 @@ const handleTableNavigation = (page) => {
 const showCreateProduct = ref(false);
 
 const tableKeys = ["product_name", "style", "brand", "sku"];
-const headers = tableKeys
-	.filter((key) => tableKeys.includes(key))
-	.map((key) => ({
-		value: key,
-		text: toTitleCase(key),
-		class: "h-12 border-b pl-2",
-	}));
+const headers = tableKeys.map((key) => ({
+	value: key,
+	text: toTitleCase(key),
+	class: "h-12 border-b pl-2",
+}));
 const loaded = ref(false);
 const loadingError = ref(false);
 

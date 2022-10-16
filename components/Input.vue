@@ -15,7 +15,7 @@
 				outline-offset-4 outline-blue-500
 			"
 			v-bind="$attrs"
-			@input="emit('update:modelValue', $event.target.value)"
+			@input="handleInput"
 		/>
 	</label>
 </template>
@@ -30,8 +30,20 @@ const props = defineProps({
 		type: String,
 		default: "",
 	},
+	debounceDelay: {
+		type: Number,
+		default: 500,
+	},
 });
-const emit = defineEmits(["update:modelValue"]);
+const emit = defineEmits(["update:modelValue", "debouncedInput"]);
+let debounceTimeout = null;
+const handleInput = ($event) => {
+	emit("update:modelValue", $event.target.value);
+	clearTimeout(debounceTimeout);
+	debounceTimeout = setTimeout(() => {
+		emit("debouncedInput", $event.target.value);
+	}, props.debounceDelay);
+};
 </script>
 
 <style lang="scss" scoped>

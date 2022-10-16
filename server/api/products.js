@@ -42,6 +42,8 @@ export default defineEventHandler(async (event) => {
 	if (methods[method]) {
 		return methods[method](event);
 	} else {
-		return 400;
+		const error = new H3Error("Server error");
+		error.statusCode = 400;
+		sendError(event, error);
 	}
 });
