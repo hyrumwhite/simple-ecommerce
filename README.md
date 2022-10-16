@@ -20,3 +20,13 @@ PGPASSWORD=yourpassword
 PGDATABASE=yourdbname
 PGPORT=5432
 ```
+6. run `npm run initdb`
+
+## Running the app
+
+Run the following commands
+```bash
+cd ./simple-ecommerce
+npm i
+npm run dev
+```
