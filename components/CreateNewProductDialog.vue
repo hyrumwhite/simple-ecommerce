@@ -64,7 +64,7 @@ const emit = defineEmits(["update:modelValue", "productSubmitted"]);
 const closeDialog = () => emit("update:modelValue", false);
 
 const createProduct = () => {
-	//need to trap 'enter' key better on this form, native dialog is not behaving as expected
+	//TODO: need to trap 'enter' key better on this form, native dialog is not behaving as expected
 	let productName = fields.value.find(({ key } = {}) => key === "product_name");
 	if (productName && !productName.value) {
 		return;

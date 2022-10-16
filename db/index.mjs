@@ -8,23 +8,6 @@ import fs from "fs/promises";
 import { join } from "path";
 import { schema } from "./schema.mjs";
 
-console.info("\nDatabase Initialization\n");
-console.info(
-	"1. Install postgresql, see: https://www.postgresqltutorial.com/postgresql-getting-started/\n"
-);
-console.info("2. Connect to your database with: sudo -u postgres psql");
-console.info('3. Update the password for the default "postgres" user:');
-console.info(`  alter role postgres with password 'postgres'\n`);
-console.info("4. Create your database");
-console.info(
-	`5. Create a .env file in the root of this project with the following:`
-);
-console.info(`  PGUSER=postgres
-  PGHOST=localhost
-  PGPASSWORD=yourpassword
-  PGDATABASE=yourdbname
-  PGPORT=5432`);
-
 if (!process.env.PGHOST) {
 	console.info(
 		"Missing postgres env vars. Please create a .env file and try again"

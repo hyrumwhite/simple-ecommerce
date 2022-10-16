@@ -30,7 +30,10 @@
 				:lastPage="lastPage"
 			/>
 		</div>
-		<CreateNewProductDialog v-model="showCreateProduct" />
+		<CreateNewProductDialog
+			v-model="showCreateProduct"
+			@productSubmitted="createProduct"
+		/>
 	</div>
 </template>
 
@@ -49,7 +52,7 @@ const handleTableNavigation = (page) => {
 	if (page == "last") {
 		page = Math.ceil(totalProducts / filter.limit);
 	}
-	productsStore.getProducts({
+	getProducts({
 		id: currentUser.id,
 		offset: (page - 1) * filter.limit,
 	});
@@ -68,15 +71,35 @@ const headers = tableKeys
 const loaded = ref(false);
 const loadingError = ref(false);
 
-onMounted(async () => {
+const getProducts = async (params) => {
 	try {
-		await productsStore.getProducts(currentUser);
+		await productsStore.getProducts(params);
 	} catch (e) {
 		console.error(e);
 		loadingError.value = true;
 	}
+};
+onMounted(async () => {
+	await getProducts(currentUser);
 	loaded.value = true;
 });
+
+const { alert } = useAlert();
+const createProduct = async (productFields) => {
+	try {
+		await productsStore.createProduct({
+			id: currentUser.id,
+			fields: productFields.value,
+		});
+		//TODO: implement alert system
+		alert("Created new product!");
+	} catch (e) {
+		//TODO: notify user of failure
+		console.error("failed to create product");
+		console.error(e);
+	}
+	productsStore.getProducts(currentUser);
+};
 </script>
 
 <style scoped>

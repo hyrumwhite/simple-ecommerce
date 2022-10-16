@@ -6,7 +6,7 @@ export default defineStore("products-store", () => {
 		offset: 0,
 		limit: 25,
 	});
-	const getProducts = async ({ id, offset = 0, limit = 25 }) => {
+	const getProducts = async ({ id, offset = 0, limit = 25 } = {}) => {
 		filter.value.offset = offset;
 		filter.value.limit = limit;
 		const params = new URLSearchParams({
@@ -15,28 +15,20 @@ export default defineStore("products-store", () => {
 			limit: filter.value.limit,
 		});
 		const { products, total } = await $fetch(`/api/products?${params}`);
-		// let dateFormatter = new Intl.DateTimeFormat(navigator.language, {
-		// 	year: "numeric",
-		// 	month: "short",
-		// 	day: "2-digit",
-		// });
-		// let currencyFormatter = new Intl.NumberFormat(navigator.language, {
-		// 	style: "currency",
-		// 	currency: "USD",
-		// });
-		for (let product of products) {
-			let createdDate = new Date(product.created_at);
-			let updatedDate = new Date(product.updated_at);
-
-			// product.createdDisplayDate = dateFormatter.format(createdDate);
-			// product.updatedDisplayDate = dateFormatter.format(updatedDate);
-			// product.shippingPriceDisplay = currencyFormatter.format(
-			// 	product.shipping_price / 100
-			// );
-		}
 		totalProducts.value = total;
 		productsList.value = products;
 	};
-
-	return { productsList, totalProducts, getProducts, filter };
+	const createProduct = async ({ id, fields }) => {
+		const body = { id };
+		for (let field of fields) {
+			if (field.value != null) {
+				body[field.key] = field.value;
+			}
+		}
+		await $fetch(`/api/products`, {
+			method: "POST",
+			body,
+		});
+	};
+	return { productsList, totalProducts, filter, getProducts, createProduct };
 });

@@ -1,4 +1,5 @@
 import { query } from "~/assets/js/db.mjs";
+import crypto from "crypto";
 import { schema } from "~~/db/schema.mjs";
 export const getProductsByUser = async ({ id, limit = 25, offset = 0 }) => {
 	let response = await query(
