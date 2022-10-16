@@ -1,7 +1,15 @@
 <template>
-	<div class="w-full h-full flex items-stretch">
+	<div class="w-full h-full flex md:items-stretch flex-col md:flex-row">
 		<section
-			class="flex flex-col gap-2 px-4 border-r border-slate-300 bg-slate-100"
+			class="
+				flex flex-col
+				gap-2
+				px-4
+				border-r border-slate-300
+				bg-slate-100
+				order-2
+				md:order-1
+			"
 		>
 			<h1 class="text-3xl py-4">Store Admin</h1>
 			<div class="flex flex-col gap-1">
@@ -22,7 +30,7 @@
 				}}</span>
 			</span>
 		</section>
-		<div class="flex-1 overflow-auto p-8">
+		<div class="flex-1 overflow-auto p-8 order-1">
 			<slot />
 		</div>
 	</div>
