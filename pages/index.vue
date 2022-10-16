@@ -6,22 +6,22 @@
 		</div>
 		<div class="border rounded-md overflow-hidden">
 			<DataTable :headers="headers" :items="productsStore.productsList">
-				<template #td_description="{ value }">
-					<span :title="value">{{ value.slice(0, 20) + "..." }}</span>
+				<template v-if="productsStore.productsList.length === 0" #body_prepend>
+					<div class="flex items-center justify-center py-3">
+						<span v-if="loadingError">
+							An error occurred while loading the table
+						</span>
+						<span v-else-if="loaded">
+							No results found for the current user
+						</span>
+						<span v-else class="flex items-center gap-1">
+							<IconLoader class="animate-spin text-zinc-700" /> Loading...
+						</span>
+					</div>
 				</template>
-				<template #td_shipping_price="{ item }">
-					{{ item.shippingPriceDisplay }}
-				</template>
-				<template #td_created_at="{ item }">
-					{{ item.createdDisplayDate }}
-				</template>
-				<template #td_updated_at="{ item }">
-					{{ item.updatedDisplayDate }}
-				</template>
-				<template #td_note="{ value }">
-					<Btn v-if="value" class="py-1 bg-slate-200 text-slate-900"
-						>View Note</Btn
-					>
+				<template #td_sku="{ value }">
+					<span v-if="value">{{ value }}</span>
+					<span v-else>N/A</span>
 				</template>
 			</DataTable>
 			<Pagination
@@ -30,12 +30,12 @@
 				:lastPage="lastPage"
 			/>
 		</div>
-		<Dialog v-model="showCreateProduct">test</Dialog>
+		<CreateNewProductDialog v-model="showCreateProduct" />
 	</div>
 </template>
 
 <script setup>
-import { schema } from "~/db/schema.mjs";
+import { toTitleCase } from "~/assets/js/toTitleCase";
 const productsStore = useProductsStore();
 const { currentUser } = useUserStore();
 const currentPage = computed(
@@ -56,21 +56,26 @@ const handleTableNavigation = (page) => {
 };
 
 const showCreateProduct = ref(false);
-//toTileCase is from https://stackoverflow.com/a/64489760/3803371
-const toTitleCase = (s) =>
-	s
-		.replace(/^[-_]*(.)/, (_, c) => c.toUpperCase()) // Initial char (after -/_)
-		.replace(/[-_]+(.)/g, (_, c) => " " + c.toUpperCase());
-const excludedKeys = ["admin_id", "id"];
-const headers = Object.keys(schema.products)
-	.filter((key) => !excludedKeys.includes(key))
+
+const tableKeys = ["product_name", "style", "brand", "sku"];
+const headers = tableKeys
+	.filter((key) => tableKeys.includes(key))
 	.map((key) => ({
 		value: key,
 		text: toTitleCase(key),
 		class: "h-12 border-b pl-2",
 	}));
+const loaded = ref(false);
+const loadingError = ref(false);
+
 onMounted(async () => {
-	productsStore.getProducts(currentUser);
+	try {
+		await productsStore.getProducts(currentUser);
+	} catch (e) {
+		console.error(e);
+		loadingError.value = true;
+	}
+	loaded.value = true;
 });
 </script>
 

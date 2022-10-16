@@ -15,25 +15,24 @@ export default defineStore("products-store", () => {
 			limit: filter.value.limit,
 		});
 		const { products, total } = await $fetch(`/api/products?${params}`);
-		//note this will fail if called from an ssr context
-		let dateFormatter = new Intl.DateTimeFormat(navigator.language, {
-			year: "numeric",
-			month: "short",
-			day: "2-digit",
-		});
-		let currencyFormatter = new Intl.NumberFormat(navigator.language, {
-			style: "currency",
-			currency: "USD",
-		});
+		// let dateFormatter = new Intl.DateTimeFormat(navigator.language, {
+		// 	year: "numeric",
+		// 	month: "short",
+		// 	day: "2-digit",
+		// });
+		// let currencyFormatter = new Intl.NumberFormat(navigator.language, {
+		// 	style: "currency",
+		// 	currency: "USD",
+		// });
 		for (let product of products) {
 			let createdDate = new Date(product.created_at);
 			let updatedDate = new Date(product.updated_at);
 
-			product.createdDisplayDate = dateFormatter.format(createdDate);
-			product.updatedDisplayDate = dateFormatter.format(updatedDate);
-			product.shippingPriceDisplay = currencyFormatter.format(
-				product.shipping_price / 100
-			);
+			// product.createdDisplayDate = dateFormatter.format(createdDate);
+			// product.updatedDisplayDate = dateFormatter.format(updatedDate);
+			// product.shippingPriceDisplay = currencyFormatter.format(
+			// 	product.shipping_price / 100
+			// );
 		}
 		totalProducts.value = total;
 		productsList.value = products;

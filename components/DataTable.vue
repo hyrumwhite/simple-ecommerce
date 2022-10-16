@@ -12,6 +12,15 @@
 			</tr>
 		</thead>
 		<tbody>
+			<tr
+				v-if="$slots['body_prepend']"
+				:items="props.items"
+				class="dark:text-layoutfont-300"
+			>
+				<td :colspan="props.headers.length" class="border-b">
+					<slot name="body_prepend"></slot>
+				</td>
+			</tr>
 			<tr v-for="item of items" :key="item[props.itemValue]">
 				<td v-for="header of headers" :key="header.value" :class="header.class">
 					<slot
