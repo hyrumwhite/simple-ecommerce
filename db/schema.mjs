@@ -1,6 +1,6 @@
 export const schema = {
 	inventory: {
-		id: "int",
+		id: "serial primary key",
 		product_id: "int",
 		quantity: "int",
 		color: "text",
@@ -45,7 +45,7 @@ export const schema = {
 		updated_at: "timestamp default current_timestamp",
 	},
 	products: {
-		id: "int",
+		id: "serial primary key",
 		product_name: "varchar(100)",
 		description: "text",
 		style: "text",
@@ -59,7 +59,7 @@ export const schema = {
 		admin_id: "int",
 	},
 	users: {
-		id: "int",
+		id: "serial primary key",
 		name: "varchar(100)",
 		email: "varchar(100)",
 		password_hash: "varchar(100)",
